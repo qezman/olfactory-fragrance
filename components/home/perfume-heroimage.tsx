@@ -51,7 +51,7 @@ export default function FloatingPerfume() {
       initial={{ opacity: 0, scale: 1.04 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-      className="relative flex items-center justify-center w-full h-full min-h-full overflow-hidden"
+      className="relative flex items-center justify-center w-full h-full min-h-full overflow-hidden rounded-lg"
     >
       <motion.div
         style={{
@@ -81,12 +81,12 @@ export default function FloatingPerfume() {
           className="relative h-full w-full"
         >
           <Image
-            src="/hero-perfume.png"
+            src="/hypnotic.jpg"
             alt="Hero-Perfume"
             fill
             priority
             sizes="(min-width: 768px) 40vw, 100vw"
-            className="object-cover p-8 drop-shadow-[0_42px_70px_rgba(26,24,20,0.28)] "
+            className="object-cover drop-shadow-[0_42px_70px_rgba(26,24,20,0.28)] "
           />
         </motion.div>
       </motion.div>
