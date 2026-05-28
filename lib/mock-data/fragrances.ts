@@ -301,7 +301,7 @@ export const fragrances: Fragrance[] = [
       { ml: 100, price: 215 },
     ],
     images: [
-      "/perfume-2.png",
+      "/perfume-2.jpg",
       "/images/cedar-02.jpg",
       "/perfume-1.jpg",
       "/images/cedar-04.jpg",
@@ -561,7 +561,7 @@ export const fragrances: Fragrance[] = [
       { ml: 100, price: 195 },
     ],
     images: [
-      "/perfume-2.png",
+      "/perfume-2.jpg",
       "/906982812452077635.jpg",
       "/images/cedar-02.jpg",
       "/images/cedar-03.jpg",
