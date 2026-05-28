@@ -8,19 +8,22 @@ export default function AboutPage() {
     <div className="bg-off-white min-h-screen">
       
       {/* Hero */}
-      <section className="relative w-full h-[48vh] md:h-[62vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-surface-deep">
-          <img
-            src="/images/cedar-04.jpg"
-            alt="Olfactory atelier"
-            className="h-full w-full object-contain p-6 md:p-10"
-          />
-        </div>
-        <div className="absolute inset-0 bg-ink/20" />
-        
-        <div className="relative z-10 text-center text-white px-section-x animate-fade-up">
-          <h1 className="font-display italic text-[clamp(48px,8vw,80px)] leading-tight mb-4 text-white">Slow perfumery.</h1>
-          <p className="type-body text-off-white/90 text-[18px]">Born in Grasse. Made by hand. Finished on your skin.</p>
+      <section className="bg-surface border-b border-border">
+        <div className="max-w-wide mx-auto px-section-x py-20 md:py-28 grid grid-cols-1 md:grid-cols-[0.95fr_1.05fr] gap-10 md:gap-16 items-center">
+          <div className="text-center md:text-left animate-fade-up">
+            <span className="type-sub text-gold mb-6 block">ABOUT OLFACTORY</span>
+            <h1 className="font-display italic text-[clamp(48px,8vw,84px)] leading-[0.95] mb-6">Slow perfumery.</h1>
+            <p className="type-body text-ink-secondary text-[18px] max-w-md mx-auto md:mx-0">Born in Grasse. Made by hand. Finished on your skin.</p>
+          </div>
+
+          <div className="relative mx-auto w-full max-w-[520px] aspect-[4/5] overflow-hidden bg-surface-deep animate-fade-up">
+            <img
+              src="/images/cedar-04.jpg"
+              alt="Olfactory atelier"
+              className="h-full w-full object-cover object-center"
+            />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_55%,rgba(26,24,20,0.18))]" />
+          </div>
         </div>
       </section>
 
