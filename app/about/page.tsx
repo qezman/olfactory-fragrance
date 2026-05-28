@@ -8,15 +8,15 @@ export default function AboutPage() {
     <div className="bg-off-white min-h-screen">
       
       {/* Hero */}
-      <section className="relative w-full h-[60vh] md:h-[80vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-ink">
+      <section className="relative w-full h-[48vh] md:h-[62vh] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-surface-deep">
           <img
             src="/images/cedar-04.jpg"
             alt="Olfactory atelier"
-            className="h-full w-full object-cover"
+            className="h-full w-full object-contain p-6 md:p-10"
           />
         </div>
-        <div className="absolute inset-0 bg-ink/30" />
+        <div className="absolute inset-0 bg-ink/20" />
         
         <div className="relative z-10 text-center text-white px-section-x animate-fade-up">
           <h1 className="font-display italic text-[clamp(48px,8vw,80px)] leading-tight mb-4 text-white">Slow perfumery.</h1>
@@ -55,11 +55,11 @@ export default function AboutPage() {
               <div className="w-6 h-6 rounded-full border-4 border-surface bg-gold mx-auto mb-6" />
               <h3 className="type-title mb-4">01 Sourcing</h3>
               <p className="type-body text-ink-secondary text-[15px]">We work directly with farmers in 18 countries to secure the highest grade raw materials.</p>
-              <div className="mt-8 aspect-square bg-surface-deep relative">
+              <div className="mt-8 mx-auto max-w-[220px] aspect-[4/5] bg-off-white relative overflow-hidden border border-border">
                 <img
                   src="/images/cedar-01.jpg"
                   alt="Sourced fragrance materials"
-                  className="absolute inset-0 h-full w-full object-cover"
+                  className="absolute inset-0 h-full w-full object-contain p-3"
                 />
               </div>
             </div>
@@ -68,11 +68,11 @@ export default function AboutPage() {
               <div className="w-6 h-6 rounded-full border-4 border-surface bg-gold mx-auto mb-6" />
               <h3 className="type-title mb-4">02 Blending</h3>
               <p className="type-body text-ink-secondary text-[15px]">Our oils rest for six weeks before being diluted in organic sugarcane alcohol.</p>
-              <div className="mt-8 aspect-square bg-surface-deep relative">
+              <div className="mt-8 mx-auto max-w-[220px] aspect-[4/5] bg-off-white relative overflow-hidden border border-border">
                 <img
                   src="/perfume-2.png"
                   alt="Blended perfume bottle"
-                  className="absolute inset-0 h-full w-full object-contain"
+                  className="absolute inset-0 h-full w-full object-contain p-3"
                 />
               </div>
             </div>
@@ -81,11 +81,11 @@ export default function AboutPage() {
               <div className="w-6 h-6 rounded-full border-4 border-surface bg-gold mx-auto mb-6" />
               <h3 className="type-title mb-4">03 Batching</h3>
               <p className="type-body text-ink-secondary text-[15px]">We compound in batches of 500 bottles or fewer to maintain absolute quality control.</p>
-              <div className="mt-8 aspect-square bg-surface-deep relative">
+              <div className="mt-8 mx-auto max-w-[220px] aspect-[4/5] bg-off-white relative overflow-hidden border border-border">
                 <img
                   src="/perfume-3.jpg"
                   alt="Small batch perfume"
-                  className="absolute inset-0 h-full w-full object-cover"
+                  className="absolute inset-0 h-full w-full object-contain p-3"
                 />
               </div>
             </div>
@@ -94,11 +94,11 @@ export default function AboutPage() {
               <div className="w-6 h-6 rounded-full border-4 border-surface bg-gold mx-auto mb-6" />
               <h3 className="type-title mb-4">04 Labelling</h3>
               <p className="type-body text-ink-secondary text-[15px]">Each bottle is filled, capped, and labelled by hand in our London atelier.</p>
-              <div className="mt-8 aspect-square bg-surface-deep relative">
+              <div className="mt-8 mx-auto max-w-[220px] aspect-[4/5] bg-off-white relative overflow-hidden border border-border">
                 <img
                   src="/perfume-1.jpg"
                   alt="Hand-labelled perfume bottle"
-                  className="absolute inset-0 h-full w-full object-cover"
+                  className="absolute inset-0 h-full w-full object-contain p-3"
                 />
               </div>
             </div>

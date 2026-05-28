@@ -7,12 +7,8 @@ export function HeroSection() {
   return (
     <section className="min-h-[85vh] flex flex-col md:flex-row border-b border-border md:py-16 md:my-4 lg:py-20">
       {/* Mobile: Image on top */}
-      <div className="md:hidden w-full h-[55vh] overflow-hidden">
-        <img
-          src="/perfume-2.png"
-          alt="Hero perfume"
-          className="w-full h-full object-contain bg-surface"
-        />
+      <div className="md:hidden w-full h-[58vh] overflow-hidden">
+        <PerfumeHeroImage />
       </div>
 
       {/* Text Content */}
@@ -47,7 +43,7 @@ export function HeroSection() {
       </div>
 
       {/* Desktop: Image on right */}
-      <div className="hidden md:block w-[40%] h-full overflow-hidden">
+      <div className="hidden md:block w-[40%] min-h-[72vh] overflow-hidden">
         <PerfumeHeroImage />
       </div>
     </section>

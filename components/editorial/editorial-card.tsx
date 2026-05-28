@@ -14,19 +14,30 @@ export function EditorialCard({ article, featured = false }: EditorialCardProps)
         {/* Image */}
         <div className={cn(
           "relative bg-surface overflow-hidden mb-6",
-          featured ? "aspect-[16/9] md:aspect-[21/9]" : "aspect-[3/4] md:aspect-[4/5]"
+          featured
+            ? "mx-auto max-w-5xl aspect-[4/3] md:aspect-[16/9] lg:aspect-[5/2]"
+            : "aspect-[3/4] md:aspect-[4/5]"
         )}>
-          <div className="absolute inset-0 bg-surface-deep transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04] flex items-center justify-center">
+          <div className={cn(
+            "absolute inset-0 bg-surface-deep transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04] flex items-center justify-center",
+            featured && "p-4 md:p-6"
+          )}>
             <img
               src={article.image}
               alt={article.title}
-              className="h-full w-full object-cover"
+              className={cn(
+                "h-full w-full",
+                featured ? "object-contain" : "object-cover"
+              )}
             />
           </div>
         </div>
 
         {/* Content */}
-        <div className="flex flex-col flex-1">
+        <div className={cn(
+          "flex flex-col flex-1",
+          featured && "mx-auto w-full max-w-5xl"
+        )}>
           <div className="flex items-center justify-between mb-4">
             <span className="type-small text-gold uppercase tracking-widest">{article.category}</span>
             <span className="type-small text-ink-tertiary">{article.readTime}</span>
