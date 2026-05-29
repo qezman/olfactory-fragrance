@@ -86,7 +86,7 @@ export default function FloatingPerfume() {
             fill
             priority
             sizes="(min-width: 768px) 40vw, 100vw"
-            className="object-cover drop-shadow-[0_42px_70px_rgba(26,24,20,0.28)] "
+            className="object-contain"
           />
         </motion.div>
       </motion.div>

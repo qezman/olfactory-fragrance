@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { X } from "lucide-react";
@@ -13,6 +13,7 @@ interface MobileMenuProps {
 
 export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const pathname = usePathname();
+  const previousPathname = useRef(pathname);
 
   useEffect(() => {
     if (isOpen) {
@@ -25,10 +26,12 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     };
   }, [isOpen]);
 
-  // Close menu on route change
   useEffect(() => {
-    onClose();
-  }, [pathname, onClose]);
+    if (previousPathname.current === pathname) return;
+
+    previousPathname.current = pathname;
+    if (isOpen) onClose();
+  }, [isOpen, onClose, pathname]);
 
   const links = [
     { href: "/fragrances", label: "Fragrances" },
@@ -59,6 +62,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             <Link
               key={link.href}
               href={link.href}
+              onClick={onClose}
               className={cn(
                 "font-display italic text-[40px] leading-none transition-colors",
                 pathname === link.href ? "text-gold" : "text-ink",
@@ -71,13 +75,25 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
         </nav>
 
         <div className="mt-16 pt-8 border-t border-border flex flex-col space-y-6">
-          <Link href="/account" className="type-sub text-ink hover:text-gold">
+          <Link
+            href="/account"
+            onClick={onClose}
+            className="type-sub text-ink hover:text-gold"
+          >
             Account
           </Link>
-          <Link href="/wishlist" className="type-sub text-ink hover:text-gold">
+          <Link
+            href="/wishlist"
+            onClick={onClose}
+            className="type-sub text-ink hover:text-gold"
+          >
             Wishlist
           </Link>
-          <Link href="/search" className="type-sub text-ink hover:text-gold">
+          <Link
+            href="/search"
+            onClick={onClose}
+            className="type-sub text-ink hover:text-gold"
+          >
             Search
           </Link>
         </div>

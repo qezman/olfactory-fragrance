@@ -6,11 +6,6 @@ import PerfumeHeroImage from "./perfume-heroimage";
 export function HeroSection() {
   return (
     <section className="min-h-[85vh] flex flex-col md:flex-row border-b border-border md:py-16 md:my-4 lg:py-20">
-      {/* Mobile: Image on top */}
-      <div className="md:hidden w-full h-[58vh] overflow-hidden">
-        <PerfumeHeroImage />
-      </div>
-
       {/* Text Content */}
       <div className="w-full md:w-[60%] flex flex-col justify-center px-section-x py-16 md:py-0 bg-off-white z-10 animate-fade-up">
         <div className="max-w-xl mx-auto md:ml-auto md:mr-16 lg:mr-32 w-full">
@@ -40,6 +35,11 @@ export function HeroSection() {
             </Link>
           </div>
         </div>
+      </div>
+
+      {/* Mobile: Image beneath text */}
+      <div className="md:hidden w-full h-[58vh] overflow-hidden">
+        <PerfumeHeroImage />
       </div>
 
       {/* Desktop: Image on right */}
