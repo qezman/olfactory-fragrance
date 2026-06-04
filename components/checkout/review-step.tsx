@@ -6,22 +6,35 @@ import { useCheckout } from '@/hooks/use-checkout';
 import { useCart } from '@/hooks/use-cart';
 import { GoldButton } from '@/components/ui/gold-button';
 import { formatPrice } from '@/lib/utils/format-price';
+import { createOrder } from '@/lib/api/order-api';
 
 export function ReviewStep() {
   const router = useRouter();
   const { contact, delivery, payment, setOrderNumber, setStep } = useCheckout();
   const { items, subtotal, shipping, total, discount, promoCode, clearCart } = useCart();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const handlePlaceOrder = () => {
+  const handlePlaceOrder = async () => {
     setIsSubmitting(true);
-    // Simulate API call
-    setTimeout(() => {
-      const orderNum = `OF-${Math.floor(1000 + Math.random() * 9000)}`;
-      setOrderNumber(orderNum);
+    setSubmitError(null);
+
+    try {
+      const order = await createOrder({
+        contact,
+        delivery,
+        items,
+        promoCode,
+      });
+
+      setOrderNumber(order.id);
       clearCart();
       router.push('/order-confirmation');
-    }, 1500);
+    } catch {
+      setSubmitError('We could not place your order. Please check your details and try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -48,13 +61,13 @@ export function ReviewStep() {
               <button onClick={() => setStep(2)} className="type-small text-ink-secondary hover:text-gold underline underline-offset-2">Edit</button>
             </div>
             <div className="type-body text-ink-secondary">
-              <p className="text-ink mb-2">{delivery.firstName} {delivery.lastName}</p>
-              <p>{delivery.address1}</p>
-              {delivery.address2 && <p>{delivery.address2}</p>}
-              <p>{delivery.city}, {delivery.postcode}</p>
-              <p>{delivery.country}</p>
+              <p className="text-ink mb-2">{delivery?.firstName} {delivery?.lastName}</p>
+              <p>{delivery?.address1}</p>
+              {delivery?.address2 && <p>{delivery.address2}</p>}
+              <p>{delivery?.city}, {delivery?.postcode}</p>
+              <p>{delivery?.country}</p>
               <p className="mt-4 pt-4 border-t border-border type-small">
-                Method: <span className="font-medium text-ink capitalize">{delivery.method}</span>
+                Method: <span className="font-medium text-ink capitalize">{delivery?.method}</span>
               </p>
             </div>
           </div>
@@ -125,6 +138,12 @@ export function ReviewStep() {
             >
               {isSubmitting ? 'PROCESSING...' : 'PLACE ORDER'}
             </GoldButton>
+
+            {submitError && (
+              <p className="type-small text-red-700 mt-4" role="alert">
+                {submitError}
+              </p>
+            )}
           </div>
         </div>
       </div>

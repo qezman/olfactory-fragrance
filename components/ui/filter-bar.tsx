@@ -2,9 +2,9 @@
 
 import { useFilter } from "@/hooks/use-filter";
 import { cn } from "@/lib/utils/cn";
-import { ScentFamily } from "@/types/fragrance";
+import { FragranceFamilyFilter, SortOption } from "@/store/filter-store";
 
-const FAMILIES: { label: string; value: string }[] = [
+const FAMILIES: { label: string; value: FragranceFamilyFilter }[] = [
   { label: "All", value: "all" },
   { label: "Woody", value: "woody" },
   { label: "Floral", value: "floral" },
@@ -12,6 +12,14 @@ const FAMILIES: { label: string; value: string }[] = [
   { label: "Amber", value: "amber" },
   { label: "Fresh", value: "fresh" },
   { label: "Gourmand", value: "gourmand" },
+];
+
+const SORT_OPTIONS: { label: string; value: SortOption }[] = [
+  { label: "Sort: Featured", value: "featured" },
+  { label: "Price: Low to High", value: "price-asc" },
+  { label: "Price: High to Low", value: "price-desc" },
+  { label: "Newest", value: "newest" },
+  { label: "Bestsellers", value: "bestsellers" },
 ];
 
 export function FilterBar() {
@@ -41,14 +49,14 @@ export function FilterBar() {
         <div className="flex items-center self-end md:self-auto">
           <select
             value={sort}
-            onChange={(e) => setSort(e.target.value as any)}
+            onChange={(e) => setSort(e.target.value as SortOption)}
             className="bg-transparent type-body text-ink outline-none cursor-pointer border-b border-border-strong pb-1 focus:border-gold"
           >
-            <option value="featured">Sort: Featured</option>
-            <option value="price-asc">Price: Low to High</option>
-            <option value="price-desc">Price: High to Low</option>
-            <option value="newest">Newest</option>
-            <option value="bestsellers">Bestsellers</option>
+            {SORT_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
           </select>
         </div>
       </div>

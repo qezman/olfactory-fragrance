@@ -1,17 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { fragrances } from "@/lib/mock-data/fragrances";
 import { useCart } from "@/hooks/use-cart";
 import { useDrawer } from "@/hooks/use-drawer";
 import { formatPrice } from "@/lib/utils/format-price";
 import { GoldButton } from "@/components/ui/gold-button";
 import { cn } from "@/lib/utils/cn";
+import { Fragrance } from "@/types/fragrance";
 
 const MAX_SELECTION = 5;
 const PRICE = 35;
 
-export function DiscoveryBuilder() {
+interface DiscoveryBuilderProps {
+  fragrances: Fragrance[];
+}
+
+export function DiscoveryBuilder({ fragrances }: DiscoveryBuilderProps) {
   const [selectedSlugs, setSelectedSlugs] = useState<string[]>([]);
   const { addItem } = useCart();
   const { openDrawer } = useDrawer();

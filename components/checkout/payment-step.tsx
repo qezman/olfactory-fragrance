@@ -4,6 +4,38 @@ import { useState } from 'react';
 import { useCheckout } from '@/hooks/use-checkout';
 import { GoldButton } from '@/components/ui/gold-button';
 import { cn } from '@/lib/utils/cn';
+import { PaymentInfo } from '@/types/checkout';
+
+interface InputProps {
+  half?: boolean;
+  name: keyof PaymentInfo;
+  placeholder: string;
+  type?: string;
+  formData: PaymentInfo;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const Input = ({
+  half = false,
+  name,
+  placeholder,
+  type = "text",
+  formData,
+  handleChange,
+}: InputProps) => (
+  <input
+    type={type}
+    name={name}
+    value={formData?.[name] || ''}
+    onChange={handleChange}
+    placeholder={placeholder}
+    required
+    className={cn(
+      "bg-transparent py-3 border-b border-border-strong outline-none type-body placeholder:text-ink-tertiary focus:border-gold transition-colors",
+      half ? "w-full md:w-[calc(50%-16px)]" : "w-full"
+    )}
+  />
+);
 
 export function PaymentStep() {
   const { payment, updatePayment, nextStep } = useCheckout();
@@ -19,21 +51,6 @@ export function PaymentStep() {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
-  const Input = ({ name, placeholder, type = "text", half = false }: any) => (
-    <input
-      type={type}
-      name={name}
-      value={(formData as any)[name]}
-      onChange={handleChange}
-      placeholder={placeholder}
-      required
-      className={cn(
-        "bg-transparent py-3 border-b border-border-strong outline-none type-body placeholder:text-ink-tertiary focus:border-gold transition-colors",
-        half ? "w-full md:w-[calc(50%-16px)]" : "w-full"
-      )}
-    />
-  );
 
   return (
     <div className="max-w-xl mx-auto animate-fade-up">
@@ -57,14 +74,14 @@ export function PaymentStep() {
 
       {/* Card Form */}
       <form onSubmit={handleSubmit} className="space-y-6">
-        <Input name="cardNumber" placeholder="Card number" type="text" />
+        <Input name="cardNumber" placeholder="Card number" type="text" formData={formData} handleChange={handleChange} />
         
         <div className="flex flex-col md:flex-row gap-8">
-          <Input name="expiry" placeholder="MM/YY" half />
-          <Input name="cvc" placeholder="CVC" half />
+          <Input name="expiry" placeholder="MM/YY" formData={formData} handleChange={handleChange} half />
+          <Input name="cvc" placeholder="CVC" formData={formData} handleChange={handleChange} half />
         </div>
         
-        <Input name="nameOnCard" placeholder="Name on card" />
+        <Input name="nameOnCard" placeholder="Name on card" formData={formData} handleChange={handleChange} />
 
         <div className="flex items-center justify-center pt-2 pb-6">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-ink-tertiary mr-2">

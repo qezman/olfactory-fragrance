@@ -13,7 +13,13 @@ import { ReviewStep } from '@/components/checkout/review-step';
 export default function CheckoutPage() {
   const router = useRouter();
   const { items } = useCart();
-  const { step, orderNumber } = useCheckout();
+  const { step, orderNumber, reset } = useCheckout();
+
+  useEffect(() => {
+    if (orderNumber) {
+      reset();
+    }
+  }, []);
 
   // Redirect to cart if empty
   useEffect(() => {

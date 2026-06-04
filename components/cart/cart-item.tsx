@@ -23,6 +23,7 @@ export function CartItem({ slug, size }: CartItemProps) {
           <img
             src={item.image || "/perfume-1.jpg"}
             alt={item.name}
+            onError={(e) => { e.currentTarget.src = "/perfume-1.jpg" }}
             className="h-full w-full object-cover"
           />
         </div>

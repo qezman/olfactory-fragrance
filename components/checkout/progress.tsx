@@ -1,10 +1,11 @@
 import { useCheckout } from '@/hooks/use-checkout';
 import { cn } from '@/lib/utils/cn';
+import { CheckoutStep } from '@/types/checkout';
 
 export function CheckoutProgress() {
   const { step, setStep } = useCheckout();
 
-  const steps = [
+  const steps: { num: CheckoutStep; label: string }[] = [
     { num: 1, label: 'Contact' },
     { num: 2, label: 'Delivery' },
     { num: 3, label: 'Payment' },
@@ -29,7 +30,7 @@ export function CheckoutProgress() {
             <button
               onClick={() => {
                 // Only allow navigating back to completed steps
-                if (isCompleted) setStep(s.num as any);
+                if (isCompleted) setStep(s.num);
               }}
               disabled={!isCompleted && !isActive}
               className={cn(

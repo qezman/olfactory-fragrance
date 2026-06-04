@@ -1,12 +1,30 @@
+"use client";
+
 import { DiscoverySet } from "@/types/editorial";
 import { formatPrice } from "@/lib/utils/format-price";
 import { GhostButton } from "@/components/ui/ghost-button";
+import { useCart } from "@/hooks/use-cart";
+import { useDrawer } from "@/hooks/use-drawer";
 
 interface SetCardProps {
   set: DiscoverySet;
 }
 
 export function SetCard({ set }: SetCardProps) {
+  const { addItem } = useCart();
+  const { openDrawer } = useDrawer();
+
+  const handleAdd = () => {
+    addItem({
+      fragranceSlug: set.slug,
+      image: set.image,
+      name: set.name,
+      price: set.price,
+      size: 10,
+    });
+    openDrawer();
+  };
+
   return (
     <div className="group block border border-border bg-white flex flex-col h-full animate-on-scroll is-visible">
       <div className="aspect-square bg-surface overflow-hidden relative">
@@ -29,7 +47,9 @@ export function SetCard({ set }: SetCardProps) {
           <span className="type-body font-medium">
             {formatPrice(set.price)}
           </span>
-          <GhostButton className="px-6 py-2.5">ADD TO BAG</GhostButton>
+          <GhostButton className="px-6 py-2.5" onClick={handleAdd}>
+            ADD TO BAG
+          </GhostButton>
         </div>
       </div>
     </div>

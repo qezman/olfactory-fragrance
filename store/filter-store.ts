@@ -1,11 +1,13 @@
 import { create } from 'zustand';
+import { ScentFamily } from '@/types/fragrance';
 
-type SortOption = 'featured' | 'price-asc' | 'price-desc' | 'newest' | 'bestsellers';
+export type FragranceFamilyFilter = ScentFamily | 'all';
+export type SortOption = 'featured' | 'price-asc' | 'price-desc' | 'newest' | 'bestsellers';
 
 interface FilterState {
-  family: string;
+  family: FragranceFamilyFilter;
   sort: SortOption;
-  setFamily: (family: string) => void;
+  setFamily: (family: FragranceFamilyFilter) => void;
   setSort: (sort: SortOption) => void;
   reset: () => void;
 }

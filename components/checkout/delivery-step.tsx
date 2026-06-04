@@ -6,13 +6,46 @@ import { useCart } from '@/hooks/use-cart';
 import { GoldButton } from '@/components/ui/gold-button';
 import { cn } from '@/lib/utils/cn';
 import { formatPrice } from '@/lib/utils/format-price';
-import { DeliveryMethod } from '@/types/checkout';
+import { DeliveryInfo, DeliveryMethod } from '@/types/checkout';
 
 const DELIVERY_OPTIONS: { id: DeliveryMethod; label: string; time: string; price: number; freeOver?: number }[] = [
   { id: 'standard', label: 'Standard', time: '3–5 working days', price: 4.95, freeOver: 75 },
   { id: 'express', label: 'Express', time: '1–2 working days', price: 9.95 },
   { id: 'nextday', label: 'Next Day', time: 'Order before 1pm', price: 14.95 },
 ];
+
+interface InputProps {
+  half?: boolean;
+  name: keyof DeliveryInfo;
+  placeholder: string;
+  required?: boolean;
+  type?: string;
+  formData: DeliveryInfo;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const Input = ({
+  half = false,
+  name,
+  placeholder,
+  required = true,
+  type = "text",
+  formData,
+  handleChange,
+}: InputProps) => (
+  <input
+    type={type}
+    name={name}
+    value={formData?.[name] || ''}
+    onChange={handleChange}
+    placeholder={placeholder}
+    required={required}
+    className={cn(
+      "bg-transparent py-3 border-b border-border-strong outline-none type-body placeholder:text-ink-tertiary focus:border-gold transition-colors",
+      half ? "w-full md:w-[calc(50%-16px)]" : "w-full"
+    )}
+  />
+);
 
 export function DeliveryStep() {
   const { delivery, updateDelivery, nextStep } = useCheckout();
@@ -34,21 +67,6 @@ export function DeliveryStep() {
     setFormData((prev) => ({ ...prev, method }));
   };
 
-  const Input = ({ name, placeholder, required = true, type = "text", half = false }: any) => (
-    <input
-      type={type}
-      name={name}
-      value={(formData as any)[name]}
-      onChange={handleChange}
-      placeholder={placeholder}
-      required={required}
-      className={cn(
-        "bg-transparent py-3 border-b border-border-strong outline-none type-body placeholder:text-ink-tertiary focus:border-gold transition-colors",
-        half ? "w-full md:w-[calc(50%-16px)]" : "w-full"
-      )}
-    />
-  );
-
   return (
     <div className="max-w-2xl mx-auto animate-fade-up">
       <h2 className="type-title mb-8 pb-4 border-b border-border">Delivery</h2>
@@ -58,16 +76,16 @@ export function DeliveryStep() {
         {/* Address Fields */}
         <div className="space-y-6">
           <div className="flex flex-col md:flex-row gap-8">
-            <Input name="firstName" placeholder="First name" half />
-            <Input name="lastName" placeholder="Last name" half />
+            <Input name="firstName" placeholder="First name" formData={formData} handleChange={handleChange} half />
+            <Input name="lastName" placeholder="Last name" formData={formData} handleChange={handleChange} half />
           </div>
           
-          <Input name="address1" placeholder="Address line 1" />
-          <Input name="address2" placeholder="Address line 2 (optional)" required={false} />
+          <Input name="address1" placeholder="Address line 1" formData={formData} handleChange={handleChange} />
+          <Input name="address2" placeholder="Address line 2 (optional)" formData={formData} handleChange={handleChange} required={false} />
           
           <div className="flex flex-col md:flex-row gap-8">
-            <Input name="city" placeholder="City" half />
-            <Input name="postcode" placeholder="Postcode" half />
+            <Input name="city" placeholder="City" formData={formData} handleChange={handleChange} half />
+            <Input name="postcode" placeholder="Postcode" formData={formData} handleChange={handleChange} half />
           </div>
 
           <div className="flex flex-col md:flex-row gap-8">
@@ -81,7 +99,7 @@ export function DeliveryStep() {
               <option value="US">United States</option>
               <option value="EU">European Union</option>
             </select>
-            <Input name="phone" placeholder="Phone number (optional)" type="tel" required={false} half />
+            <Input name="phone" placeholder="Phone number (optional)" type="tel" formData={formData} handleChange={handleChange} required={false} half />
           </div>
         </div>
 

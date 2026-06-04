@@ -9,11 +9,6 @@ import { GhostButton } from '@/components/ui/ghost-button';
 export function OrderConfirmation() {
   const { contact, orderNumber, reset } = useCheckout();
 
-  // Reset store when unmounting
-  useEffect(() => {
-    return () => reset();
-  }, [reset]);
-
   return (
     <div className="max-w-3xl mx-auto py-20 text-center animate-fade-up">
       <CheckmarkAnim />
@@ -31,7 +26,7 @@ export function OrderConfirmation() {
         <Link href="/fragrances">
           <GhostButton>CONTINUE SHOPPING</GhostButton>
         </Link>
-        <Link href="/account/orders">
+        <Link href={`/orders/${orderNumber || ''}`}>
           <GhostButton className="border-transparent text-ink-secondary">
             VIEW YOUR ORDER
           </GhostButton>

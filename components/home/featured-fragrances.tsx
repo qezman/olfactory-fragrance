@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import { FragranceCard } from '@/components/fragrance/fragrance-card';
-import { fragrances } from '@/lib/mock-data/fragrances';
+import { getFragrances } from '@/lib/api/fragrance-api';
 
-export function FeaturedFragrances() {
+export async function FeaturedFragrances() {
+  const fragrances = await getFragrances();
   const featured = fragrances.slice(0, 6);
 
   return (

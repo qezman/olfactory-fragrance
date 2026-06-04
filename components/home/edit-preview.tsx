@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { EditorialCard } from "@/components/editorial/editorial-card";
-import { articles } from "@/lib/mock-data/articles";
+import { getArticles } from "@/lib/api/article-api";
 
-export function EditPreview() {
+export async function EditPreview() {
+  const articles = await getArticles();
   const previewArticles = articles.slice(0, 3);
 
   return (
