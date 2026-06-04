@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  olfactory-fragrance-backend:
+    image: olfactory-fragrance-backend:latest   # build/tag your backend image before running
+    container_name: olfactory-fragrance-backend
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    networks:
+      - olfactory-net
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: http://olfactory-fragrance-backend:4000/api
+    container_name: olfactory-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://olfactory-fragrance-backend:4000/api
+    depends_on:
+      - olfactory-fragrance-backend
+    networks:
+      - olfactory-net
+
+networks:
+  olfactory-net:
+    driver: bridge

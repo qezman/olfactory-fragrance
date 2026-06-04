@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: olfactory-frontend
+  labels:
+    app: olfactory-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: olfactory-frontend
+  template:
+    metadata:
+      labels:
+        app: olfactory-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: {{ ECR_REGISTRY }}/olfactory-frontend:{{ IMAGE_TAG }}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: olfactory-frontend-config
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 20
+            periodSeconds: 15
+      restartPolicy: Always

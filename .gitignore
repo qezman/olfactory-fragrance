@@ -6,3 +6,18 @@ node_modules/
 *.tsbuildinfo
 AGENTS.md
 CLAUDE.md
+.env.local
+.env
+.env.production
+
+# Terraform
+*.tfstate
+*.tfstate.backup
+.terraform/
+
+# Docker
+docker-compose.override.yml
+
+# OS
+.DS_Store
+Thumbs.db
