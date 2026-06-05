@@ -61,6 +61,7 @@ pipeline {
                           --set image.repository=${ECR_REGISTRY}/${ECR_REPO} \
                           --set image.tag=${IMAGE_TAG} \
                           --set env.NEXT_PUBLIC_API_URL=${INTERNAL_API_URL} \
+                          --set ingress.host=a0c8dfa58ebdf47ef9249224f6d34d60-786203290.us-east-1.elb.amazonaws.com \
                           --wait
                     """
                 }
