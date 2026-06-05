@@ -2,12 +2,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ .Release.Name }}-ingress
-  namespace: {{ .Release.Namespace }}
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+  annotations: {}
 spec:
-  ingressClassName: {{ .Values.ingress.className }}
+  ingressClassName: nginx
   rules:
     - host: {{ .Values.ingress.host | quote }}
       http:
@@ -18,8 +15,7 @@ spec:
               service:
                 name: olfactory-frontend
                 port:
-                  number: {{ .Values.service.port }}
-          # Route /api/* to the backend service
+                  number: 80
           - path: /api
             pathType: Prefix
             backend:
@@ -27,4 +23,23 @@ spec:
                 name: olfactory-fragrance-backend
                 port:
                   number: 80
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+    - host: {{ .Values.ingress.host | quote }}
+      http:
+        paths:
+        - path: /()(.*)
+          pathType: Prefix
+          backend:
+            service:
+              name: olfactory-frontend
+              port:
+                number: 80
+        - path: /api(/|$)(.*)
+          pathType: Prefix
+          backend:
+            service:
+              name: olfactory-fragrance-backend
+              port:
+                number: 80
 {{- end }}
