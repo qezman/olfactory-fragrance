@@ -10,7 +10,7 @@ pipeline {
         NAMESPACE       = 'olfactory'
         HELM_RELEASE    = 'olfactory-frontend'
         // Internal backend URL for SSR calls
-        INTERNAL_API_URL = 'http://olfactory-fragrance-backend/api'
+        INTERNAL_API_URL = 'http://a0c8dfa58ebdf47ef9249224f6d34d60-786203290.us-east-1.elb.amazonaws.com/api'
     }
 
     stages {
