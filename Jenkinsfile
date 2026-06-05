@@ -10,7 +10,7 @@ pipeline {
         NAMESPACE       = 'olfactory'
         HELM_RELEASE    = 'olfactory-frontend'
         // Internal backend URL for SSR calls
-        INTERNAL_API_URL = 'http://qossim005.online/api'
+        INTERNAL_API_URL = 'https://qossim005.online/api'
 
     }
 
