@@ -10,7 +10,7 @@ pipeline {
         NAMESPACE       = 'olfactory'
         HELM_RELEASE    = 'olfactory-frontend'
         // Internal backend URL for SSR calls
-        INTERNAL_API_URL = 'http://a36f74d28ce2a4a749a8258d914acd48-1710297716.us-east-1.elb.amazonaws.com/api'
+        INTERNAL_API_URL = 'http://qossim005.online/api'
 
     }
 
@@ -62,7 +62,7 @@ pipeline {
                           --set image.repository=${ECR_REGISTRY}/${ECR_REPO} \
                           --set image.tag=${IMAGE_TAG} \
                           --set env.NEXT_PUBLIC_API_URL=${INTERNAL_API_URL} \
-                          --set ingress.host=a36f74d28ce2a4a749a8258d914acd48-1710297716.us-east-1.elb.amazonaws.com \
+                          --set ingress.host=qossim005.online \
                           --wait
                     """
                 }
