@@ -1,8 +1,8 @@
-replicaCount: 2
+replicaCount: 1
 
 image:
-  repository: ""        # set via Jenkins: --set image.repository=$ECR_REGISTRY/olfactory-frontend
-  tag: "latest"         # set via Jenkins: --set image.tag=$IMAGE_TAG
+  repository: ""
+  tag: "latest"
   pullPolicy: Always
 
 service:
@@ -13,15 +13,11 @@ service:
 ingress:
   enabled: true
   className: nginx
-  host: olfactory.example.com   # replace with your domain
-  tls:
-    enabled: true
-    secretName: olfactory-tls
+  host: olfactory.example.com
 
 env:
-  NEXT_PUBLIC_API_URL: "http://olfactory-fragrance-backend/api"
+  NEXT_PUBLIC_API_URL: ""
   NODE_ENV: "production"
-  PORT: "3000"
 
 resources:
   requests:
@@ -30,19 +26,3 @@ resources:
   limits:
     cpu: "500m"
     memory: "512Mi"
-
-autoscaling:
-  enabled: false
-  minReplicas: 2
-  maxReplicas: 6
-  targetCPUUtilizationPercentage: 70
-
-readinessProbe:
-  path: /
-  initialDelaySeconds: 10
-  periodSeconds: 5
-
-livenessProbe:
-  path: /
-  initialDelaySeconds: 20
-  periodSeconds: 15

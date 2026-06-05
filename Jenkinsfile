@@ -1,88 +1,83 @@
 pipeline {
-  agent any
+    agent any
 
-  environment {
-    AWS_REGION      = 'us-east-1'                          // update to your region
-    ECR_REGISTRY    = credentials('ECR_REGISTRY')          // set in Jenkins credentials
-    IMAGE_NAME      = 'olfactory-frontend'
-    IMAGE_TAG       = "${env.BUILD_NUMBER}-${env.GIT_COMMIT?.take(7)}"
-    K8S_NAMESPACE   = 'olfactory'
-    HELM_RELEASE    = 'olfactory'
-  }
-
-  stages {
-
-    stage('Checkout') {
-      steps {
-        checkout scm
-      }
+    environment {
+        AWS_REGION      = 'us-east-1'
+        ECR_REGISTRY    = '203637463799.dkr.ecr.us-east-1.amazonaws.com'
+        ECR_REPO        = 'eks-project-frontend'
+        IMAGE_TAG       = "${BUILD_NUMBER}"
+        CLUSTER_NAME    = 'eks-project-eks'
+        NAMESPACE       = 'olfactory'
+        HELM_RELEASE    = 'olfactory-frontend'
+        // Internal backend URL for SSR calls
+        INTERNAL_API_URL = 'http://olfactory-fragrance-backend/api'
     }
 
-    stage('Install') {
-      steps {
-        sh 'npm ci'
-      }
-    }
+    stages {
 
-    stage('Lint') {
-      steps {
-        sh 'npm run lint'
-      }
-    }
-
-    stage('Build') {
-      steps {
-        sh 'npm run build'
-      }
-    }
-
-    stage('Docker Build & Push') {
-      steps {
-        withCredentials([string(credentialsId: 'ECR_REGISTRY', variable: 'ECR_REGISTRY')]) {
-          sh """
-            aws ecr get-login-password --region ${AWS_REGION} | \
-              docker login --username AWS --password-stdin ${ECR_REGISTRY}
-
-            docker build \
-              --build-arg NEXT_PUBLIC_API_URL=http://olfactory-fragrance-backend/api \
-              -t ${ECR_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG} \
-              -t ${ECR_REGISTRY}/${IMAGE_NAME}:latest \
-              .
-
-            docker push ${ECR_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}
-            docker push ${ECR_REGISTRY}/${IMAGE_NAME}:latest
-          """
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
         }
-      }
-    }
 
-    stage('Deploy via Helm') {
-      steps {
-        withCredentials([string(credentialsId: 'ECR_REGISTRY', variable: 'ECR_REGISTRY')]) {
-          sh """
-            helm upgrade --install ${HELM_RELEASE} ./helm/olfactory-frontend \
-              --namespace ${K8S_NAMESPACE} \
-              --create-namespace \
-              --set image.repository=${ECR_REGISTRY}/${IMAGE_NAME} \
-              --set image.tag=${IMAGE_TAG} \
-              --wait \
-              --timeout 5m
-          """
+        stage('Docker Build') {
+            steps {
+                script {
+                    // NEXT_PUBLIC_API_URL passed as build arg
+                    sh """
+                        docker build \
+                          --build-arg NEXT_PUBLIC_API_URL=${INTERNAL_API_URL} \
+                          -t ${ECR_REGISTRY}/${ECR_REPO}:${IMAGE_TAG} \
+                          -t ${ECR_REGISTRY}/${ECR_REPO}:latest \
+                          .
+                    """
+                }
+            }
         }
-      }
+
+        stage('Push to ECR') {
+            steps {
+                script {
+                    sh """
+                        aws ecr get-login-password --region ${AWS_REGION} \
+                          | docker login --username AWS --password-stdin ${ECR_REGISTRY}
+                    """
+                    sh "docker push ${ECR_REGISTRY}/${ECR_REPO}:${IMAGE_TAG}"
+                    sh "docker push ${ECR_REGISTRY}/${ECR_REPO}:latest"
+                }
+            }
+        }
+
+        stage('Deploy to EKS') {
+            steps {
+                script {
+                    sh "aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER_NAME}"
+                    sh "kubectl create namespace ${NAMESPACE} --dry-run=client -o yaml | kubectl apply -f -"
+
+                    sh """
+                        helm upgrade --install ${HELM_RELEASE} ./helm/olfactory-frontend \
+                          --namespace ${NAMESPACE} \
+                          --set image.repository=${ECR_REGISTRY}/${ECR_REPO} \
+                          --set image.tag=${IMAGE_TAG} \
+                          --set env.NEXT_PUBLIC_API_URL=${INTERNAL_API_URL} \
+                          --wait
+                    """
+                }
+            }
+        }
+
     }
 
-  }
-
-  post {
-    success {
-      echo "✅ Deployed ${IMAGE_NAME}:${IMAGE_TAG} to namespace ${K8S_NAMESPACE}"
+    post {
+        success {
+            echo "Frontend deployed successfully - image tag: ${IMAGE_TAG}"
+        }
+        failure {
+            echo "Pipeline failed - check logs above"
+        }
+        always {
+            sh "docker rmi ${ECR_REGISTRY}/${ECR_REPO}:${IMAGE_TAG} || true"
+        }
     }
-    failure {
-      echo "❌ Pipeline failed — check logs above"
-    }
-    always {
-      cleanWs()
-    }
-  }
 }
