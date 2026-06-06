@@ -1,17 +1,18 @@
-# Application Repositories
+# Olfactory Fragrance — Frontend
 
-The application code lives in separate repositories following a polyrepo structure.
+A luxury fragrance e-commerce storefront built with Next.js 14 App Router, TypeScript, and Tailwind CSS.
 
-## Frontend - Next.js
-- **Repo**: https://github.com/qezman/olfactory-fragrance
-- **Stack**: Next.js 14 (App Router), TypeScript, Tailwind CSS
-- **Containerized**: Yes - multi-stage Dockerfile, deployed to EKS
-- **Helm Chart**: `helm/olfactory-frontend/`
-- **CI/CD**: Jenkins pipeline (`Jenkinsfile` in repo root)
+## Stack
 
-## Backend - Node.js/Express
-- **Repo**: https://github.com/qezman/olfactory-fragrance-backend
-- **Stack**: Node.js, Express, TypeScript, Prisma ORM, PostgreSQL
-- **Containerized**: Yes - multi-stage Dockerfile, deployed to EKS
-- **Helm Chart**: `helm/olfactory-fragrance-backend/`
-- **CI/CD**: Jenkins pipeline (`Jenkinsfile` in repo root)
+- Next.js 14 (App Router)
+- TypeScript
+- Tailwind CSS
+
+## Infrastructure
+
+Deployed on AWS EKS via Jenkins CI/CD. See infrastructure repo:
+https://github.com/qezman/Terraform-EKS-Helm-Jenkins
+
+<!-- ## Live URL -->
+
+<!-- https://qossim005.online -->
