@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: {{ ECR_REGISTRY }}/olfactory-frontend:{{ IMAGE_TAG }}
+          image: {{ ECR_REGISTRY }}/eks-project-frontend:{{ IMAGE_TAG }}
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
