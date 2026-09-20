@@ -27,7 +27,7 @@ export function Nav({ onMenuClick }: NavProps) {
 
   return (
     <header className="sticky top-0 z-40 w-full bg-off-white/88 backdrop-blur-[16px] border-b border-border transition-all duration-300">
-      <div className="h-[52px] md:h-[60px] max-w-wide mx-auto px-section-x flex items-center justify-between">
+      <div className="h-[52px] md:h-[60px] w-full px-section-x flex items-center justify-between">
         {/* Mobile Left: Hamburger */}
         <div className="flex-1 md:hidden">
           <button

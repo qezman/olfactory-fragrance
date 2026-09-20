@@ -81,7 +81,7 @@ export default function FloatingPerfume() {
           className="relative h-full w-full"
         >
           <Image
-            src="/hypnotic.jpg"
+            src="/hero-olfactory.png"
             alt="Hero-Perfume"
             fill
             priority
